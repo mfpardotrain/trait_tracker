@@ -2,6 +2,7 @@ require 'json'
 require "net/http"
 require_relative 'champions'
 require_relative 'traits'
+require 'singleton'
 
 class TftData
     include Singleton
@@ -11,7 +12,12 @@ class TftData
     CURRENT_SET = "13"
 
     def initialize
-        raw = JSON.parse(get_request("https://raw.communitydragon.org/latest/cdragon/tft/en_us.json").body)
+        # raw = JSON.parse(get_request("https://raw.communitydragon.org/latest/cdragon/tft/en_us.json").body)
+        # File.open('raw_tft_data.json', 'w') do |f|
+        #   f.write(raw.to_json)
+        # end
+        file = File.open 'raw_tft_data.json'
+        raw = JSON.load file
         raw_champions = raw["sets"][CURRENT_SET]["champions"]
         raw_traits = raw["sets"][CURRENT_SET]["traits"] 
 

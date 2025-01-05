@@ -1,5 +1,3 @@
-require "rubocop/rake_task"
-require "standard/rake"
 require_relative "lib/controller"
 require_relative "lib/decision_engine"
 require_relative "lib/entrypoint"

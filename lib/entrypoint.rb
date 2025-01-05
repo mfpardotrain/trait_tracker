@@ -16,7 +16,7 @@ class Entrypoint
         suggested_champs = []
         second_suggestion = []
 
-        window('Champion Helper', 800, 800) {
+        window('Champion Helper', 870, 900) {
           margined true
           vertical_box {
             grid {
@@ -41,7 +41,8 @@ class Entrypoint
                                 cur_team.delete([checkbox.text])
                             end
 
-                            new_champs = DecisionEngine.find_best_champions(champions.build_team_from_names(cur_team.flatten))
+                            team = champions.build_team_from_names(cur_team.flatten)
+                            new_champs = DecisionEngine.find_best_champions(team)
                             suggested_champs.clear()
 
                             top_champs = new_champs[new_champs.keys.max].sort_by(&:last).reverse
@@ -60,13 +61,15 @@ class Entrypoint
                                 end
                             end
 
-                            if new_champs.keys.max == 7
-                                target_team = DecisionEngine.get_current_state(DecisionEngine.get_potential_teams([]), champions.build_team_from_names(cur_team.flatten))[7]
-                                puts "Tell me if you find a multi-team" if target_team.length > 1
-                                target_team = target_team.first
-                                target_champs = target_team.get_champ_names.sort
-                                target_champs.each do |champ|
-                                    current_target << [champ]
+  
+                            current_target.clear()
+                            target_team = DecisionEngine.get_potential_teams(team)
+                            top_ten_teams = target_team[target_team.keys.max].first(10)
+                            top_ten_teams.each do |top_team|
+                                current_target << top_team.to_a.map do |el| 
+                                    color = :black
+                                    color = :dark_green if team.get_champ_names.include?(el.name) 
+                                    [el.name, color] 
                                 end
                             end
                         end
@@ -74,7 +77,18 @@ class Entrypoint
                     col += 1
                 end
             }
-            
+
+            table {
+                text_color_column("Champ 1")
+                text_color_column("Champ 2")
+                text_color_column("Champ 3")
+                text_color_column("Champ 4")
+                text_color_column("Champ 5")
+                text_color_column("Champ 6")
+                text_color_column("Champ 7")
+
+                cell_rows current_target
+            }
             horizontal_box {
                 table {
                     text_column("Current Team")
@@ -90,10 +104,7 @@ class Entrypoint
                     text_column("Total Comps")
                     cell_rows second_suggestion
                 }
-                table {
-                    text_column("Current Target")
-                    cell_rows current_target
-                }
+ 
             }
           }
         }.show

@@ -9,11 +9,10 @@ class DecisionEngine
     end
 
     def self.find_best_champions(team)
-        filtered = get_potential_teams(team)
-        current_probable_teams = get_current_state(filtered, team)
+        current_potential_teams = get_potential_teams(team)
 
         top_units = {}
-        current_probable_teams.each do |size, teams| 
+        current_potential_teams.each do |size, teams| 
             cur_freq = {}
             teams.each { |team| get_unit_frequencies(team, cur_freq) }
             top_units[size] = cur_freq
@@ -30,7 +29,7 @@ class DecisionEngine
         else
             filtered = potential_teams.select { |potential_team| !(team.to_a & potential_team.to_a).empty? }
         end
-        filtered
+        get_current_state(filtered, team)
     end
 
     def self.champions

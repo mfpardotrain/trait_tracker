@@ -27,6 +27,7 @@ GEM
       text-table (>= 1.2.4, < 2.0.0)
     libui (0.1.2)
     libui (0.1.2-arm64-darwin)
+    libui (0.1.2-x64-mingw)
     matrix (0.4.2)
     method_source (1.1.0)
     ocra (1.3.11)
@@ -63,6 +64,8 @@ GEM
 PLATFORMS
   arm64-darwin-23
   ruby
+  x64-mingw-ucrt
+  x86-mingw32
 
 DEPENDENCIES
   glimmer-dsl-libui
