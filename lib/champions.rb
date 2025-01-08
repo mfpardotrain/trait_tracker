@@ -22,7 +22,11 @@ class Champions
         all_champions.select { |champ| champ.name == name }.first
     end
 
-    def build_team_from_names(arr)
-        Team.new(arr.map { |name| find_from_name(name) })
+    def build_team_from_names(arr, emblems={})
+        Team.new(arr.map { |name| find_from_name(name) }, emblems)
+    end
+
+    def filter_by_champ_names(arr)
+        champions_with_traits.filter { |champion| !arr.include?(champion.name) }
     end
 end

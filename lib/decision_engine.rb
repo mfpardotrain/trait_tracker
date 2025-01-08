@@ -1,12 +1,7 @@
 require_relative "tft_data"
 
 class DecisionEngine
-        require 'pry'
-    def initialize
-        team = ["Ziggs", "Silco", "Irelia", "Lux", "Gangplank", "Swain"]
-        cur_team = champions.build_team_from_names(team)
-        find_best_champions(cur_team, 3)
-    end
+    require 'pry'
 
     def self.find_best_champions(team)
         current_potential_teams = get_potential_teams(team)
@@ -19,7 +14,6 @@ class DecisionEngine
         end
 
         # TODO: Handle different team sizes
-        top_units[top_units.keys.max].sort_by(&:last).reverse
         top_units
     end
 
